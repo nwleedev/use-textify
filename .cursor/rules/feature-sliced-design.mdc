@@ -1,0 +1,408 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Cursor AI Rule: Feature Sliced Design (FSD) for Remix App Router (with Examples)
+
+Objective: When generating or modifying code in this Remix App Router project, adhere strictly to the Feature Sliced Design (FSD) principles, specifically adapted for the Remix App Router structure. Use the provided code examples as guidance for the typical content and structure of each layer. Ensure shared clients like Tanstack Query are provided via Context API defined in the shared layer and used in top-level layouts.
+
+Project Structure & FSD Layers:
+Assume the following FSD layer structure outside the main Remix app directory, typically within a src folder (e.g., src/widgets, src/entities, etc.). The app directory itself will serve the specific Remix routing purpose and act as the top orchestration layer for routes, pages, and layouts.
+
+/app (Remix Specific - Top Level Orchestration & Routing Entry Points):
+
+Role: Handles Remix routing (route.tsx, _layout.tsx, error.tsx, loading.tsx, etc.). This is where Remix's server-side capabilities (Loaders, Actions) are integrated, and where components from lower FSD layers are imported and composed to form complete pages and layouts rendered by the router. Includes global layouts (root.tsx or _layout.tsx) where top-level providers (like QueryProvider from shared) are used to wrap the application.
+
+Functionality: Orchestrates lower-level FSD layers (widgets, features, pages - if used within app) to build complete route UIs. Defines Remix-specific entry points like loader and action.
+
+Dependencies: Can import from any FSD layer (widgets, features, entities, shared). Crucially, other FSD layers CANNOT import from /app.
+
+Typical Example (app/products/route.tsx):
+
+// app/products/route.tsx
+// Role: This is the Remix route entry point for the /products path.
+// It handles data loading (loader) and renders the UI composed from lower layers.
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { getProducts } from "@/features/product-list/api/getProducts"; // Imports from 'features' layer (lower)
+import { ProductsPageView } from "@/widgets/product-list-widget/ui/ProductListView"; // Imports from 'widgets' layer (lower)
+
+// NOTE: This file CANNOT be imported by any other FSD layer.
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  // Use logic from features layer to fetch data
+  const products = await getProducts();
+  // Data can be passed down to lower-level components
+  return { products };
+}
+
+export default function ProductsRoute() {
+  const { products } = useLoaderData<typeof loader>();
+
+  return (
+    // Renders a widget component that composes lower layers for the view
+    <ProductsPageView products={products} />
+    // Other components from widgets, features, or shared could be used directly if needed
+  );
+}
+
+
+Typical Example (app/root.tsx or app/_layout.tsx for Global Providers/Layout):
+
+// app/root.tsx (or app/_layout.tsx depending on Remix setup)
+// Role: Absolute root layout for the application. Used to wrap the entire app
+// with global providers defined in the 'shared' layer.
+import { Outlet, Meta, Links, Scripts } from "@remix-run/react";
+import { QueryProvider } from "@/shared/lib/query/QueryProvider"; // Imports the global provider from 'shared' layer (lower)
+import "@/shared/styles/globals.css"; // Imports global styles from 'shared' layer (lower)
+
+// NOTE: This file CANNOT be imported by any other FSD layer.
+
+export default function App() {
+  return (
+    <html lang="en">
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {/* Use global providers from the 'shared' layer here */}
+        <QueryProvider>
+          {/* Outlet renders the content of the matched route (app/[route]/route.tsx etc.) */}
+          <Outlet />
+        </QueryProvider>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+TypeScript
+IGNORE_WHEN_COPYING_END
+
+/src/widgets (UI Blocks):
+
+Role: Complex UI components that combine multiple features, entities, or shared components. Represent significant, often reusable, parts of a page or layout. Should be unaware of specific routes or Remix Loader/Action logic, receiving necessary data and callbacks via props.
+
+Dependencies: Can import from features, entities, shared. Cannot import from app or higher layers.
+
+Typical Example:
+
+// src/widgets/product-list-widget/ui/ProductListView.tsx
+// Role: A UI composition component (widget) that displays a list of products.
+// Receives product data via props (e.g., from the loader in app/products/route.tsx).
+import { ProductList } from "@/features/product-list/ui/ProductList"; // Imports from 'features' layer (lower)
+import { ProductFiltersFeature } from "@/features/product-filters/ui/ProductFilters"; // Imports from 'features' layer (lower)
+import { PageTitle } from "@/shared/ui/typography"; // Imports from 'shared' layer (lower)
+import { Product } from "@/entities/product/model/types"; // Imports from 'entities' layer (lower)
+
+interface ProductsListViewProps {
+    products: Product[];
+    // Props for filters, sorting, etc., likely passed from the app layer
+}
+
+// NOTE: Cannot import from 'app'.
+
+export function ProductsListView({ products }: ProductsListViewProps) {
+  return (
+    <div>
+      <PageTitle>Products</PageTitle> {/* Uses a shared component */}
+      {/* Composes components from lower layers (features, entities, shared) */}
+      <ProductFiltersFeature /> {/* Example of composing a feature */}
+      <ProductList products={products} /> {/* Uses the core ProductList component from the feature layer */}
+    </div>
+  );
+}
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+TypeScript
+IGNORE_WHEN_COPYING_END
+
+/src/features (User Interaction & Business Logic):
+
+Role: Implement specific user interactions, business logic, or application features (e.g., 'authentication', 'add-to-cart', 'user-profile-editing', 'product-list'). Often contain state management (using hooks, contexts from shared), interact with APIs (defined in shared or within features/api), and use entities. Should be reusable across different widgets/pages.
+
+Dependencies: Can import from entities, shared. Cannot import from app, widgets or higher layers.
+
+Typical Example (UI Component within Feature):
+
+// src/features/product-list/ui/ProductList.tsx
+// Role: Displays a list of products (UI specific to this feature).
+// It uses the Product entity type and a shared UI component.
+import { Product } from "@/entities/product/model/types"; // Imports from 'entities' layer (lower)
+import { ProductCard } from "@/entities/product/ui/ProductCard"; // Imports from 'entities' layer (lower, UI specific to entity)
+import { EmptyState } from "@/shared/ui/feedback"; // Imports from 'shared' layer (lower)
+
+interface ProductListProps {
+  products: Product[]; // Receives entity data via props
+  // Callbacks for actions within the list, e.g., onProductSelect: (productId: string) => void;
+}
+
+// NOTE: Cannot import from 'app', 'widgets'.
+
+export const ProductList = ({ products }: ProductListProps) => {
+  if (!products || products.length === 0) {
+    return <EmptyState message="No products found." />; // Uses a shared component
+  }
+
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      {/* Maps over entities and uses an entity-specific UI component */}
+      {products.map(product => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  );
+};
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+TypeScript
+IGNORE_WHEN_COPYING_END
+
+Typical Example (Logic/API within Feature, potentially used by Loader/Action):
+
+// src/features/product-list/api/getProducts.ts
+// Role: Fetches product data (API interaction logic specific to this feature).
+// This function is designed to be called from a Remix Loader or Action.
+import { Product } from "@/entities/product/model/types"; // Imports from 'entities' layer (lower)
+import { apiClient } from "@/shared/api/apiClient"; // Imports from 'shared' layer (lower)
+
+// NOTE: Cannot import from 'app', 'widgets'.
+
+export const getProducts = async (): Promise<Product[]> => {
+  try {
+    // Uses the shared API client to make the actual request
+    const response = await apiClient.get('/products');
+    // Assumes response data structure matches Product type from 'entities'
+    return response.data as Product[];
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    throw new Error("Could not load products"); // Or handle error as needed for Remix loader/action
+  }
+};
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+TypeScript
+IGNORE_WHEN_COPYING_END
+
+/src/entities (Domain Logic & Data Structures):
+
+Role: Define domain models, data structures (interfaces, types), and basic operations or UI components tied specifically to domain concepts (e.g., 'product', 'user', 'order'). These are the core "things" in your application.
+
+Dependencies: Can import only from shared. Cannot import from app, widgets, features or higher layers.
+
+Typical Example (Type Definition):
+
+// src/entities/product/model/types.ts
+// Role: Defines the data structure (interface) for the Product entity.
+// NOTE: Cannot import from app, widgets, features.
+// Could import basic types/utilities from 'shared' if needed.
+
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  imageUrl?: string;
+}
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+TypeScript
+IGNORE_WHEN_COPYING_END
+
+Typical Example (UI specific to Entity):
+
+// src/entities/product/ui/ProductCard.tsx
+// Role: A UI component specifically for displaying a single Product entity.
+import { Product } from "@/entities/product/model/types"; // Imports types from same entity slice
+import { Button } from "@/shared/ui/button"; // Imports from 'shared' layer (lower)
+import { formatCurrency } from "@/shared/lib/formatters"; // Imports from 'shared' layer (lower)
+
+interface ProductCardProps {
+  product: Product;
+  // Can accept callbacks for interactions related to this entity, e.g., onAddToCart: (product: Product) => void;
+}
+
+// NOTE: Cannot import from app, widgets, features.
+
+export const ProductCard = ({ product }: ProductCardProps) => {
+  return (
+    <div className="border p-4 rounded-md">
+      <h3>{product.name}</h3>
+      <p>{formatCurrency(product.price)}</p> {/* Uses shared utility */}
+      {/* <Button onClick={() => onAddToCart(product)}>Add to Cart</Button> // Uses shared component */}
+    </div>
+  );
+};
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+TypeScript
+IGNORE_WHEN_COPYING_END
+
+/src/shared (Reusable Infrastructure):
+
+Role: Contains generic, reusable code independent of any specific feature or domain. Examples: UI components (buttons, inputs), hooks (useDebounce), utility functions (formatDate), API clients, configuration types, constants, global styles, and providers for global clients like Tanstack Query.
+
+Dependencies: CANNOT import from ANY other FSD layer (app, widgets, features, entities). This layer must be completely independent.
+
+Typical Example (UI Component):
+
+// src/shared/ui/button/Button.tsx
+// Role: A generic, reusable Button component.
+import React from 'react';
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  // Specific button props if needed
+}
+
+// NOTE: Cannot import from app, widgets, features, entities.
+
+export const Button = (props: ButtonProps) => {
+  return (
+    <button {...props} className={`p-2 rounded bg-blue-500 text-white ${props.className}`}>
+      {props.children}
+    </button>
+  );
+};
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+TypeScript
+IGNORE_WHEN_COPYING_END
+
+Typical Example (Utility Function):
+
+// src/shared/lib/formatters/formatCurrency.ts
+// Role: A reusable utility function for formatting currency.
+// NOTE: Cannot import from app, widgets, features, entities.
+
+export const formatCurrency = (amount: number, currency: string = 'USD'): string => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+  }).format(amount);
+};
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+TypeScript
+IGNORE_WHEN_COPYING_END
+
+Typical Example (API Client Instance & Config):
+
+// src/shared/config/api.ts
+// Role: Generic API configuration constants.
+// NOTE: Cannot import from app, widgets, features, entities.
+export const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:4000/api';
+// Add other general API constants here
+
+// src/shared/api/apiClient.ts
+// Role: A reusable, generic API client instance using shared config.
+import axios from 'axios';
+import { API_BASE_URL } from "@/shared/config/api"; // Imports from shared config (same layer)
+
+// NOTE: Cannot import from app, widgets, features, entities.
+// Imports from other shared modules are allowed.
+
+export const apiClient = axios.create({
+  baseURL: API_BASE_URL, // Uses config from shared
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  // Add interceptors for error handling, auth tokens, etc.
+});
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+TypeScript
+IGNORE_WHEN_COPYING_END
+
+Typical Example (Global Client Provider like Tanstack Query):
+
+// src/shared/lib/query/QueryProvider.tsx
+// Role: Defines and provides the Tanstack Query Client via React Context.
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React from 'react';
+
+// Create the client instance within the shared layer
+const queryClient = new QueryClient({
+    // Add default options here if needed
+});
+
+interface QueryProviderProps {
+    children: React.ReactNode;
+}
+
+// NOTE: Cannot import from app, widgets, features, entities.
+// Can import external libraries (like React, @tanstack/react-query).
+
+export const QueryProvider = ({ children }: QueryProviderProps) => {
+    return (
+        <QueryClientProvider client={queryClient}>
+            {children}
+        </QueryClientProvider>
+    );
+};
+// Components in 'features' or higher layers can now use hooks like useQuery/useMutation
+// from '@tanstack/react-query', which rely on this provider being in the tree above them.
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+TypeScript
+IGNORE_WHEN_COPYING_END
+
+Slices within Layers:
+
+Within widgets, features, and entities layers (and optionally within /app for specific page components if you choose), organize code into logical "slices" based on functionality or domain (e.g., features/authentication, entities/product, widgets/product-card).
+
+Slices within the same layer can import from each other, and from slices in lower layers, provided it doesn't violate the main layer dependency rule.
+
+Dependency Rule (Strict):
+
+Downward Dependencies ONLY: A module/component in a higher layer can only import from modules/components in the same layer (if they are in the same slice or explicitly allowed by slice-specific rules) or in lower layers.
+
+Upward Dependencies FORBIDDEN: A module/component in a lower layer MUST NOT import from a module/component in a higher layer.
+
+app -> widgets -> features -> entities -> shared
+
+Imports must follow this direction or stay within the same layer/slice (if allowed).
+
+shared is the bottom layer and cannot import from any other FSD layer.
+
+app is the top orchestration/routing layer and no other FSD layer can import from it.
+
+AI Instructions:
+
+When asked to create or modify code, first identify which FSD layer and slice the code belongs to based on its responsibility (Remix routing/entry point, UI block, feature logic, data structure, utility, or shared infrastructure/provider). Refer to the examples for guidance on the typical content and structure of each layer.
+
+Place the generated code within the appropriate directory structure (app/... or src/{layer}/{slice}/...).
+
+Ensure all imports within the generated code strictly follow the FSD Dependency Rule. If an import violates the rule (e.g., a component in features trying to import from widgets), indicate the violation or suggest an alternative valid approach (e.g., lifting state/logic to a higher layer, passing data down via props, defining a dependency inversion pattern, or calling shared logic from app/route.tsx files).
+
+Use path aliases (e.g., @/shared, @/features/authentication) for cleaner imports, assuming they are configured in tsconfig.json or jsconfig.json and remix.config.js.
+
+If a request is ambiguous regarding which layer/slice it belongs to, ask for clarification or make the most reasonable assumption based on the component/module's likely role and dependencies, referencing the examples.
+
+Prioritize creating small, focused modules within slices that adhere to their layer's responsibility, demonstrated by the examples.
+
+Avoid creating components or logic that mixes responsibilities across layers within a single file unless it's a top-level orchestration file like app/[route]/route.tsx, app/_layout.tsx, or app/root.tsx which are designed to compose lower layers and integrate with Remix's routing/data primitives.
+
+For shared clients like Tanstack Query, suggest or place the provider definition in src/shared/lib/... and guide the user to use it in app/root.tsx or a top-level _layout.tsx.

@@ -1,0 +1,16 @@
+{
+  "name": "use-textify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:dev": "./db/pocketbase serve --http=\"127.0.0.1:3001\"",
+    "web:dev": "pnpm --filter web dev",
+    "web:build": "pnpm --filter web build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0"
+}
