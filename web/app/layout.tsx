@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 import PocketbaseProvider from "./providers/pocketbase";
 import TanstackQueryProvider from "./providers/tanstack-query";
@@ -17,7 +18,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <PocketbaseProvider>
-          <TanstackQueryProvider>{children}</TanstackQueryProvider>
+          <TanstackQueryProvider>
+            <Suspense>{children}</Suspense>
+          </TanstackQueryProvider>
         </PocketbaseProvider>
         <div id="portal" className="w-full h-0 fixed"></div>
       </body>

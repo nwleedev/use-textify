@@ -7,7 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:dev": "./db/pocketbase serve --http=\"127.0.0.1:3001\"",
     "web:dev": "pnpm --filter web dev",
-    "web:build": "pnpm --filter web build"
+    "web:build": "pnpm --filter web build",
+    "web:preview": "pnpm --filter web preview",
+    "web:deploy": "pnpm --filter web deploy",
+    "web:cf-typegen": "pnpm --filter web cf-typegen"
   },
   "keywords": [],
   "author": "",
