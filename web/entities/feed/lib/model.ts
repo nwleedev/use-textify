@@ -10,6 +10,7 @@ export type Feed = {
   createdAt: string;
   updatedAt: string;
   user: string;
+  status: "pending" | "not_verified" | "verified";
 } & RecordModel;
 
 export type FeedVariable = {
