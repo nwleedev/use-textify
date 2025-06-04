@@ -1,4 +1,3 @@
-import Link from "next/link";
 import NavbarSearch from "./navbar/search";
 import NavbarUser from "./navbar/user";
 
@@ -28,12 +27,6 @@ const Navbar = () => {
         <NavbarSearch />
         <div className="hidden sm:flex items-center gap-4 flex-shrink-0">
           <NavbarUser />
-          <Link
-            href="/feeds/new"
-            className="btn btn-success btn-sm text-base text-white"
-          >
-            New Feed
-          </Link>
         </div>
       </div>
     </nav>
