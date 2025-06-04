@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { ChevronLeftIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { MouseEvent, useRef } from "react";
+import { MouseEvent, Suspense, useRef } from "react";
 import {
   FormProvider,
   useController,
@@ -157,34 +157,38 @@ const TagForm = () => {
       </div>
       <div className="relative w-full h-px z-[5]">
         {hasQuery && (
-          <TagsQuery keyword={hasQuery ? controller.field.value : ""}>
-            {(data) => {
-              return (
-                <div className="flex gap-2 flex-wrap absolute bg-base-200 shadow rounded top-1 p-4 w-full">
-                  {data.data.items.map((tag) => {
-                    return (
-                      <button
-                        key={tag.id}
-                        type="button"
-                        onClick={(event) => onClick(event, tag.name)}
-                        className="btn btn-sm text-base text-white btn-success"
-                      >
-                        {tag.name}
-                      </button>
-                    );
-                  })}
-                  <button
-                    key="Custom Tag"
-                    type="button"
-                    onClick={(event) => onClick(event, controller.field.value)}
-                    className="btn btn-sm text-base text-base-content btn-outline"
-                  >
-                    Add a new tag
-                  </button>
-                </div>
-              );
-            }}
-          </TagsQuery>
+          <Suspense>
+            <TagsQuery keyword={hasQuery ? controller.field.value : ""}>
+              {(data) => {
+                return (
+                  <div className="flex gap-2 flex-wrap absolute bg-base-200 shadow rounded top-1 p-4 w-full">
+                    {data.data.items.map((tag) => {
+                      return (
+                        <button
+                          key={tag.id}
+                          type="button"
+                          onClick={(event) => onClick(event, tag.name)}
+                          className="btn btn-sm text-base text-white btn-success"
+                        >
+                          {tag.name}
+                        </button>
+                      );
+                    })}
+                    <button
+                      key="Custom Tag"
+                      type="button"
+                      onClick={(event) =>
+                        onClick(event, controller.field.value)
+                      }
+                      className="btn btn-sm text-base text-base-content btn-outline"
+                    >
+                      Add a new tag
+                    </button>
+                  </div>
+                );
+              }}
+            </TagsQuery>
+          </Suspense>
         )}
       </div>
     </div>
