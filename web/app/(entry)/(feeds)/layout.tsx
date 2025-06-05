@@ -12,7 +12,7 @@ export default function Layout(props: PropsWithChildren) {
   // Sidebar is now always visible on desktop, toggled on mobile
   return (
     <div className="flex flex-col min-h-screen bg-base-200 relative">
-      <div className="w-full flex">
+      <div className="w-full flex sticky top-0 z-10">
         <Navbar />
       </div>
       <div className="flex-1 flex flex-row w-full mx-auto">
