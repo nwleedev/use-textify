@@ -39,7 +39,7 @@ const NavbarSearch = () => {
   return (
     <>
       <button
-        className="flex items-center gap-2 px-4 py-2 rounded-full border w-full max-w-sm bg-base-200 hover:bg-base-300 transition outline-none"
+        className="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full border w-full max-w-sm bg-base-200 hover:bg-base-300 transition outline-none"
         onClick={() => {
           ref.current?.showModal();
         }}

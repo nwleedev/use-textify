@@ -65,7 +65,7 @@ const FeedSearchDialog = forwardRef<HTMLDialogElement, FeedSearchDialogProps>(
           action={"GET"}
           onSubmit={onSubmit}
         >
-          <div className="flex items-center justify-between pb-4 pt-6 sticky top-0 bg-base-100 px-3">
+          <div className="flex items-center justify-between pb-4 pt-6 sticky top-0 bg-base-100 px-3 z-10">
             {stage === "dialog" && (
               <div className="flex items-center justify-between px-3 w-full">
                 <h2 className="font-bold text-lg">Feed Search</h2>
@@ -110,7 +110,7 @@ const FeedSearchDialog = forwardRef<HTMLDialogElement, FeedSearchDialogProps>(
               </>
             )}
           </div>
-          <div className="flex flex-col gap-4 px-6 py-3">
+          <div className="flex flex-col gap-4 px-6 py-3 flex-1">
             {stage === "dialog" && (
               <>
                 <div className="flex flex-col gap-2 w-full">
