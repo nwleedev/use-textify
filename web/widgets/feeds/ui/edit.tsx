@@ -16,7 +16,8 @@ import { useClient } from "@/shared/lib/pocketbase/hook";
 import Portal from "@/shared/ui/portal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { ChevronLeftIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { useDebounce } from "@uidotdev/usehooks";
+import { ChevronLeftIcon, PlusIcon, TrashIcon, XIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { MouseEvent, Suspense, useRef } from "react";
 import {
@@ -119,8 +120,8 @@ const TagForm = () => {
     defaultValues: { text: "" },
   });
   const controller = useController({ control: input.control, name: "text" });
-  const hasQuery =
-    controller.field.value.length >= 2 && controller.field.value.length <= 16;
+  const debouncedValue = useDebounce(controller.field.value, 500);
+  const hasQuery = debouncedValue.length >= 2 && debouncedValue.length <= 16;
   const onClick = (event: MouseEvent<HTMLButtonElement>, name: string) => {
     const tags = getValues("tags").reduce((acc, cur) => {
       acc.add(cur.name);
@@ -136,7 +137,7 @@ const TagForm = () => {
   return (
     <div className="flex flex-col w-full">
       <h2 className="font-semibold">Tags</h2>
-      <div className="flex w-full gap-2 py-1 px-1 mt-2 overflow-x-auto min-h-12 h-fit flex-wrap">
+      <div className="flex w-full gap-2 gap-x-4 py-1 px-1 mt-2 overflow-x-auto min-h-12 h-fit flex-wrap">
         <input
           type="text"
           {...controller.field}
@@ -150,47 +151,44 @@ const TagForm = () => {
               onClick={() => {
                 remove(index);
               }}
-              className="btn btn-sm text-base text-white btn-info"
+              className="text-sm text-success-content flex items-center gap-1"
             >
               {field.name}
+              <XIcon className="w-4 h-4" />
             </button>
           );
         })}
       </div>
       <div className="relative w-full h-px z-[5]">
         {hasQuery && (
-          <Suspense>
-            <TagsQuery keyword={hasQuery ? controller.field.value : ""}>
-              {(data) => {
-                return (
-                  <div className="flex gap-2 flex-wrap absolute bg-base-200 shadow rounded top-1 p-4 w-full">
-                    {data.data.items.map((tag) => {
-                      return (
-                        <button
-                          key={tag.id}
-                          type="button"
-                          onClick={(event) => onClick(event, tag.name)}
-                          className="btn btn-sm text-base text-white btn-success"
-                        >
-                          {tag.name}
-                        </button>
-                      );
-                    })}
-                    <button
-                      key="Custom Tag"
-                      type="button"
-                      onClick={(event) =>
-                        onClick(event, controller.field.value)
-                      }
-                      className="btn btn-sm text-base text-base-content btn-outline"
-                    >
-                      Add a new tag
-                    </button>
-                  </div>
-                );
-              }}
-            </TagsQuery>
-          </Suspense>
+          <div className="flex gap-2 flex-wrap absolute bg-base-200 shadow rounded top-1 p-4 w-full">
+            <button
+              key="Custom Tag"
+              type="button"
+              onClick={(event) => onClick(event, debouncedValue)}
+              className="btn btn-sm text-base text-base-content btn-outline"
+            >
+              Add a new tag
+            </button>
+            <Suspense>
+              <TagsQuery keyword={hasQuery ? debouncedValue : ""}>
+                {(data) => {
+                  return data.data.items.map((tag) => {
+                    return (
+                      <button
+                        key={tag.id}
+                        type="button"
+                        onClick={(event) => onClick(event, tag.name)}
+                        className="btn btn-sm text-base text-white btn-success"
+                      >
+                        {tag.name}
+                      </button>
+                    );
+                  });
+                }}
+              </TagsQuery>
+            </Suspense>
+          </div>
         )}
       </div>
     </div>
