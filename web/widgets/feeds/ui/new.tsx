@@ -271,7 +271,7 @@ const FeedNew = () => {
               )}
               {category.key && (
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-2 [border-bottom-style:solid] border-b border-base-content text-base-content h-10 px-2">
+                  <div className="flex items-center gap-2 text-base-content font-semibold h-10 px-2">
                     <CategoryIcon iconKey={category.key} />
                     <span>{category.name}</span>
                   </div>

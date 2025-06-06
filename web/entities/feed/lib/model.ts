@@ -32,8 +32,8 @@ export type FeedGridItem = Feed & {
   expand: {
     category: Category;
     tags?: Tag[];
-    feed_variables_via_feed: FeedVariable[];
-    feed_notices_via_feed: FeedNotice[];
+    feed_variables_via_feed?: FeedVariable[];
+    feed_notices_via_feed?: FeedNotice[];
   };
 };
 

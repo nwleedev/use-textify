@@ -43,11 +43,11 @@ export const toFeedEditSchema = (feed: FeedGridItem) => {
     prompt: feed.prompt,
     category: feed.expand.category,
     tags: feed.expand.tags?.map((tag) => ({ name: tag.name })) ?? [],
-    variables: feed.expand.feed_variables_via_feed.map((variable) => ({
+    variables: (feed.expand.feed_variables_via_feed ?? []).map((variable) => ({
       name: variable.name,
       description: variable.description,
     })),
-    notices: feed.expand.feed_notices_via_feed.map((notice) => ({
+    notices: (feed.expand.feed_notices_via_feed ?? []).map((notice) => ({
       text: notice.text,
     })),
   };
