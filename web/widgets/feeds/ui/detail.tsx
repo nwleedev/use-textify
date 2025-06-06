@@ -32,6 +32,8 @@ const FeedDetail = () => {
     <FeedByIdQuery>
       {(response) => {
         const feed = response.data;
+        const notices = feed.expand?.feed_notices_via_feed ?? [];
+        const variables = feed.expand?.feed_variables_via_feed ?? [];
         return (
           <div className="bg-base-300 flex items-start justify-center py-6 px-4 flex-1">
             <div className="card bg-base-100 shadow-lg w-full max-w-5xl lg:max-w-7xl border border-base-200 rounded-xl p-4">
@@ -55,11 +57,11 @@ const FeedDetail = () => {
                     </span>
                   ))}
                 </div>
-                {feed.expand?.feed_variables_via_feed?.length > 0 && (
+                {variables.length > 0 && (
                   <div>
                     <div className="font-semibold text-lg mb-1">Variables</div>
                     <ul className="list-disc list-inside text-base text-base-content/80">
-                      {feed.expand.feed_variables_via_feed.map((variable) => (
+                      {variables.map((variable) => (
                         <li key={variable.id}>
                           <span className="font-semibold">{variable.name}</span>
                           <span className="text-sm text-base-content/80">
@@ -70,11 +72,11 @@ const FeedDetail = () => {
                     </ul>
                   </div>
                 )}
-                {feed.expand?.feed_notices_via_feed?.length > 0 && (
+                {notices.length > 0 && (
                   <div>
                     <div className="font-semibold text-lg mb-1">Notices</div>
                     <ul className="list-disc list-inside text-base text-warning">
-                      {feed.expand.feed_notices_via_feed.map((notice) => (
+                      {notices.map((notice) => (
                         <li key={notice.id}>{notice.text}</li>
                       ))}
                     </ul>
