@@ -33,6 +33,7 @@ const ItemLink = ({ category }: { category: Category }) => {
     <Link
       key={category.id}
       href={`/feeds?category=${category.key}`}
+      prefetch={false}
       className={
         "btn btn-ghost btn-sm flex w-full rounded-none transition-all duration-200 h-[48px] flex-row items-center gap-2 justify-start px-4"
       }
