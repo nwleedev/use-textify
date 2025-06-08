@@ -149,7 +149,7 @@ const TagForm = () => {
               onClick={() => {
                 remove(index);
               }}
-              className="text-sm text-success-content flex items-center gap-1"
+              className="text-sm dark:text-success text-success-content flex items-center gap-1"
             >
               {field.name}
               <XIcon className="w-4 h-4" />
@@ -219,13 +219,13 @@ const FeedNew = () => {
   return (
     <FormProvider {...form}>
       <div className="min-h-screen bg-base-200 items-center flex flex-col">
-        <nav className="max-w-xl sm:max-w-2xl lg:max-w-3xl w-full z-10 sticky top-0 h-16 items-center flex flex-shrink-0 bg-base-100 dark:border-white border-b px-4 shadow-sm">
+        <nav className="max-w-xl sm:max-w-2xl lg:max-w-3xl w-full z-10 sticky top-0 h-16 items-center flex flex-shrink-0 bg-base-100 dark:border-white border-b px-4 gap-4 shadow-sm">
           <button
             type="button"
             onClick={() => {
               router.back();
             }}
-            className="btn btn-ghost"
+            className="btn btn-ghost px-2"
           >
             <ChevronLeftIcon className="w-5 h-5" />
           </button>

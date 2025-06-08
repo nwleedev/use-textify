@@ -1,6 +1,7 @@
 import { User } from "@/entities/auth/lib/model";
 import { verifyUser } from "@/entities/auth/lib/verify";
 import { createClient } from "@/shared/lib/pocketbase/server/client";
+import { NewspaperIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 
 const NavbarUser = async () => {
@@ -24,21 +25,17 @@ const NavbarUser = async () => {
             </div>
           </div>
         </div>
-        <Link
-          href="/feeds/new"
-          className="btn btn-success btn-sm text-base text-white"
-        >
-          New Feed
+        <Link href="/feeds/new" className="btn btn-primary text-white gap-2">
+          <NewspaperIcon className="w-4 h-4" />
+          <span>New Feed</span>
         </Link>
       </>
     );
   } else {
     return (
-      <Link
-        href="/join"
-        className="btn btn-success btn-sm text-base text-white"
-      >
-        Join
+      <Link href="/join" className="btn btn-primary text-white gap-2">
+        <UserIcon className="w-4 h-4" />
+        <span>Join</span>
       </Link>
     );
   }

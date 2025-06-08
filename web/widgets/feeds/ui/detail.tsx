@@ -32,6 +32,7 @@ const FeedDetail = () => {
     <FeedByIdQuery>
       {(response) => {
         const feed = response.data;
+        const categoryKey = feed.expand?.category?.key;
         const notices = feed.expand?.feed_notices_via_feed ?? [];
         const variables = feed.expand?.feed_variables_via_feed ?? [];
         return (
@@ -48,13 +49,26 @@ const FeedDetail = () => {
                   <p className="w-full font-mono">{feed.prompt}</p>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="badge badge-accent bg-red-500/80 text-white border-red-500/80 w-fit">
-                    {feed.expand?.category?.name}
-                  </span>
+                  {categoryKey && (
+                    <Link
+                      href={`/feeds?category=${categoryKey}`}
+                      prefetch={false}
+                    >
+                      <span className="badge badge-accent bg-red-500/80 text-white border-red-500/80 w-fit">
+                        {feed.expand?.category?.name}
+                      </span>
+                    </Link>
+                  )}
                   {feed.expand?.tags?.map((tag) => (
-                    <span key={tag.id} className="badge badge-soft badge-info">
-                      {tag.name}
-                    </span>
+                    <Link
+                      key={tag.id}
+                      href={`/feeds?tags=${tag.name}`}
+                      prefetch={false}
+                    >
+                      <span className="badge badge-soft badge-info">
+                        {tag.name}
+                      </span>
+                    </Link>
                   ))}
                 </div>
                 {variables.length > 0 && (
