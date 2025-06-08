@@ -225,14 +225,14 @@ const FeedSearchDialog = forwardRef<HTMLDialogElement, FeedSearchDialogProps>(
             {stage === "category" && (
               <>
                 <div className="flex flex-col gap-2 w-full">
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col">
                     <CategoriesQuery>
                       {(response) => {
                         return response.data.map((item) => {
                           return (
                             <button
                               key={item.id}
-                              className="btn btn-outline gap-2"
+                              className="btn btn-ghost gap-2 p-4 h-auto"
                               type="button"
                               onClick={() => {
                                 setValue("category", {
