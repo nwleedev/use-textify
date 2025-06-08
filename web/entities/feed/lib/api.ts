@@ -7,6 +7,7 @@ export async function getFeeds(client: Client, page: number, size: number) {
   return client.collection("feeds").getList<FeedGridItem>(page, size, {
     expand: "category,tags,feed_variables_via_feed,feed_notices_via_feed",
     fields: "*,category,tags,feed_variables_via_feed,feed_notices_via_feed",
+    sort: "-created",
   });
 }
 
@@ -50,6 +51,7 @@ export async function getFeedsByFilter(
     filter: filterCondition,
     expand: "category,tags,feed_variables_via_feed,feed_notices_via_feed",
     fields: "*,category,tags,feed_variables_via_feed,feed_notices_via_feed",
+    sort: "-created",
   });
 }
 
