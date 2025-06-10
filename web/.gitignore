@@ -37,3 +37,7 @@ next-env.d.ts
 
 # Cloudflare Workers
 .open-next/
+
+# Serwist
+public/sw*
+public/swe-worker*

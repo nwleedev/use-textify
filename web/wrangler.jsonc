@@ -18,5 +18,9 @@
         "OAUTH2_GOOGLE_CALLBACK_URL": "https://usetextify.com/oauth2/google/callback"
       }
     }
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.2
   }
 }
