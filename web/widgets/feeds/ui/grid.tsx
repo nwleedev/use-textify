@@ -1,7 +1,7 @@
 "use client";
 
 import { FeedsQuery } from "@/features/feed/ui/query";
-import Link from "next/link";
+import PrefetchWhenHover from "@/shared/ui/link/preferch-when-hover";
 
 const FeedsGrid = () => {
   return (
@@ -11,7 +11,7 @@ const FeedsGrid = () => {
         return (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {feeds?.map((feed) => (
-              <Link href={`/feeds/${feed.id}`} key={feed.id}>
+              <PrefetchWhenHover href={`/feeds/${feed.id}`} key={feed.id}>
                 <div className="card bg-base-100 shadow-lg hover:shadow-xl transition rounded-xl overflow-hidden flex flex-col">
                   <div className="card-body flex flex-col gap-2">
                     <h2 className="card-title text-lg font-semibold line-clamp-2">
@@ -38,7 +38,7 @@ const FeedsGrid = () => {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </PrefetchWhenHover>
             ))}
           </div>
         );
