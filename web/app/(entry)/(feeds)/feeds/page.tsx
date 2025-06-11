@@ -6,6 +6,27 @@ import { createClient } from "@/shared/lib/pocketbase/server/client";
 import { toSearchParams } from "@/shared/lib/search-params/value";
 import HydrationInfiniteQuery from "@/shared/ui/hydration-infinite-query";
 import FeedsFilterGrid from "@/widgets/feeds/ui/filter-grid";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Record<string, string>;
+}): Promise<Metadata> {
+  const [, filter] = getFeedsByFilterQueryKey(toSearchParams(searchParams));
+  let title = "Feeds";
+  if (filter && filter.keyword) {
+    title = `Search: ${filter.keyword}`;
+  } else if (filter && filter.category) {
+    title = `Category: ${filter.category}`;
+  } else if (filter && filter.tags) {
+    title = `Tags: ${filter.tags.join(", ")}`;
+  }
+  return {
+    title,
+    description: "Feeds",
+  };
+}
 
 export default function Page({
   searchParams,
