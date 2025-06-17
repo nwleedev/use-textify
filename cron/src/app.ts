@@ -1,11 +1,12 @@
 import dotenv from "dotenv";
 import express from "express";
 import OpenAI from "openai";
+import * as path from "path";
 import { createClient } from "./lib/client/openai";
 import { completionBodySchema } from "./lib/schema/feed";
 import { createFeed, createFeedInput, getFiles } from "./lib/service/openai";
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, "../.env") });
 
 const port = process.env.APP_PORT;
 const client = createClient(process.env.OPENAI_API_KEY as string);
