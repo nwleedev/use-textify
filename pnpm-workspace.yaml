@@ -1,3 +1,4 @@
 packages:
   - "db"
   - "web"
+  - "cron"

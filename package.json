@@ -10,7 +10,10 @@
     "web:build": "pnpm --filter web build",
     "web:preview": "pnpm --filter web preview",
     "web:cf-deploy": "pnpm --filter web cf-deploy",
-    "web:cf-typegen": "pnpm --filter web cf-typegen"
+    "web:cf-typegen": "pnpm --filter web cf-typegen",
+    "cron:dev": "pnpm --filter cron dev",
+    "cron:build": "pnpm --filter cron build",
+    "cron:start": "pnpm --filter cron start"
   },
   "keywords": [],
   "author": "",
