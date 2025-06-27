@@ -19,7 +19,10 @@ export async function createFeedInput(
     return array;
   }, [] as { type: "input_file"; file_id: string }[]);
 
-  const userPrompt = createFeedPrompt(concept);
+  const userPrompt = createFeedPrompt(
+    concept,
+    fileContent.map((file) => file.file_id)
+  );
   return [
     {
       role: "user",

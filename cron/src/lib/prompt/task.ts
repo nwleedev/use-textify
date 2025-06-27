@@ -1,14 +1,20 @@
-export function createFeedPrompt(concept: string) {
+export function createFeedPrompt(concept: string, ids: string[]) {
   const prompt = `
   I am building a web service that people can share their LLM prompts.
   A prompt is an input text or instruction given to an LLM to generate an output.
-  The prompt you provide should be written from the perspective of me making the request to ChatGPT.
-  You should give a prompt that can help people when they are doing this activity: ${concept}.
-  I want to help users get better responses by referencing and improving existing prompts. So I need to prepare high-quality prompts in advance. This helps users recognize that the service offers professional and useful content.
+
+  I need you to give the prompt which we are going to use to get useful answers from ChatGPT, Gemini, Claude, and etc.
+  Your goal is giving prompts that people can make much better outputs and more effective performances when they are doing their works and activities: ${concept}.
+  Therefore, I could help users get better responses by referencing and improving existing prompts. That is why I need to prepare high-quality prompts in advance. This helps users recognize that the service offers professional and useful content.
+  You should follow text styles, such as tone, grammar, in the uploaded files with file ids in creating text responses. Instead of using semicolons or commas in the text, please write them in short sentences. The content should be human-like instead of AI-like.
   
-  You should follow text styles, such as tone, grammer, in the uploaded files with file ids in creating text responses. Instead of using semicolons or commas in the text, please write them in short sentences.
+  IDs of uploaded files are ${ids.join(
+    ", "
+  )}. If you cannot find the file, STOP THIS PROMPT INSTEAD OF ANSWERING PLEASE.
+  
   Prompts include a title, a short description, a main prompt, tags, notices, and variables.
-  Please write the main prompt consisting of over 80 words as much as possible.
+  Please write the main prompt consisting of over 80-200 words as much as possible.
+  If the concept is wide-spread, you should divide into multiple and nested sub tasks, write the main prompt that can assist these nested tasks and the top topic.
   For the short description, if it is like "This prompt gives ...", please write it except for the part of "This prompt gives".
   The list of tags at the prompt is a list of words. Each tag should have the length of 16 characters or less.
   Variables are the variables required for prompts. Each variable item must consist of a variable and a variable description. A variable description is a single sentence consisting of 14-16 words about what a variable does. 
