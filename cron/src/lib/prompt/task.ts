@@ -1,10 +1,9 @@
 export function createFeedPrompt(concept: string, ids: string[]) {
   const prompt = `
   # Writing Style
-  
-  Closely follow this writing style(writing_style) below.
 
-  <writing_style>
+  Closely follow this writing styles below. If you cannot follow the writing styles, STOP THIS PROMPT INSTEAD OF ANSWERING PLEASE.
+
   Instead of using semicolons or commas in the text, please write them in several sentences.
   Do not use passive voice like \"Application can be built with minimal resources\". Use active voice like \"You can build an application with minimal resources.\"
   Texts should have natural, and human-like tone.
@@ -14,11 +13,11 @@ export function createFeedPrompt(concept: string, ids: string[]) {
   Avoid buzzwords and instead use plain English. Use jargons when relevant.
   Avoid being salesy or overly enthusiastic and instead express calm confidence.
   If you need to use a list, Do not use double quotes, single quotes, and asterisks.
-  Do not use colons like "Here are examples:", instead use like "Here are examples below."
-  You should follow text styles, such as tone, grammar, in the uploaded files with file ids in creating text responses. IDs of uploaded files are ${ids.join(
+  Do not use colons like "Here are examples:" or "Structure your approach as follows:", instead use these like "Here are examples below." and "Structure your approach as follows below."
+  You should follow text styles, such as tone, grammar, in the uploaded files with file ids in creating text responses. 
+  IDs of uploaded files are ${ids.join(
     ", "
   )}. If you cannot find the file, STOP THIS PROMPT INSTEAD OF ANSWERING PLEASE.
-  </writing_style>
 
   # Instructions
 
