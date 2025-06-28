@@ -1,26 +1,25 @@
 export function createFeedPrompt(concept: string, ids: string[]) {
   const prompt = `
+  <writing style>
+  Instead of using semicolons or commas in the text, please write them in several sentences.
+  Do not use passive voice like \"Application can be built with minimal resources\". Use active voice like \"You can build an application with minimal resources.\"
+  Texts should have natural, and human-like tone.
+  Texts should have a good readability.
+  Use clear and direct language and avoid too much complex terminologies.
+  Aim for a Flesch reading score of 80 or higher.
+  Avoid buzzwords and instead use plain English. Use jargons when relevant.
+  Avoid being salesy or overly enthusiastic and instead express calm confidence.
+  If you need to use a list, Do not use double quotes, single quotes, asterisks, and colons. Use plain text instead.
+  You should follow text styles, such as tone, grammar, in the uploaded files with file ids in creating text responses. IDs of uploaded files are ${ids.join(
+    ", "
+  )}. If you cannot find the file, STOP THIS PROMPT INSTEAD OF ANSWERING PLEASE.
+  </writing style>
   I am building a web service that people can share their LLM prompts.
   A prompt is an input text or instruction given to an LLM to generate an output.
 
   I need you to give the prompt which we are going to use to get useful answers from ChatGPT, Gemini, Claude, and etc.
   Your goal is giving prompts that people can make much better outputs and more effective performances when they are doing their works and activities: ${concept}.
   Therefore, I could help users get better responses by referencing and improving existing prompts. That is why I need to prepare high-quality prompts in advance. This helps users recognize that the service offers professional and useful content.
-  You should follow text styles, such as tone, grammar, in the uploaded files with file ids in creating text responses.  
-  IDs of uploaded files are ${ids.join(
-    ", "
-  )}. If you cannot find the file, STOP THIS PROMPT INSTEAD OF ANSWERING PLEASE.
-  There are more answer guidelines to organize text contents that YOU MUST FOLLOW.
-  - Instead of using semicolons or commas in the text, please write them in several sentences.
-  - Do not use passive voice like \"Application can be built with minimal resources\". Use active voice like \"You can build an application with minimal resources.\"
-  - Texts should have natural, and human-like tone.
-  - Texts should have a good readability.
-  - Use clear and direct language and avoid too much complex terminologies.
-  - Aim for a Flesch reading score of 80 or higher.
-  - Avoid buzzwords and instead use plain English. Use jargons when relevant.
-  - Avoid being salesy or overly enthusiastic and instead express calm confidence.
-  - If you need to use a list, Do not use double quotes, single quotes, asterisks. Use plain text instead.
-
   Prompts include a title, a short description, a main prompt, tags, notices, and variables.
   Please write the main prompt consisting of over 80-200 words as much as possible.
   If the concept is wide-spread, you should divide into multiple and nested sub tasks, write the main prompt that can assist these nested tasks and the top topic.
