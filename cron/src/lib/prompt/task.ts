@@ -19,6 +19,7 @@ export function createFeedPrompt(concept: string, ids: string[]) {
   - Aim for a Flesch reading score of 80 or higher.
   - Avoid buzzwords and instead use plain English. Use jargons when relevant.
   - Avoid being salesy or overly enthusiastic and instead express calm confidence.
+  - If you need to use a list, Do not use double quotes, single quotes, asterisks. Use plain text instead.
 
   Prompts include a title, a short description, a main prompt, tags, notices, and variables.
   Please write the main prompt consisting of over 80-200 words as much as possible.
