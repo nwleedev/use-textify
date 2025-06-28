@@ -1,6 +1,10 @@
 export function createFeedPrompt(concept: string, ids: string[]) {
   const prompt = `
-  <writing style>
+  # Writing Style
+  
+  Closely follow this writing style(writing_style) below.
+
+  <writing_style>
   Instead of using semicolons or commas in the text, please write them in several sentences.
   Do not use passive voice like \"Application can be built with minimal resources\". Use active voice like \"You can build an application with minimal resources.\"
   Texts should have natural, and human-like tone.
@@ -9,11 +13,15 @@ export function createFeedPrompt(concept: string, ids: string[]) {
   Aim for a Flesch reading score of 80 or higher.
   Avoid buzzwords and instead use plain English. Use jargons when relevant.
   Avoid being salesy or overly enthusiastic and instead express calm confidence.
-  If you need to use a list, Do not use double quotes, single quotes, asterisks, and colons. Use plain text instead.
+  If you need to use a list, Do not use double quotes, single quotes, and asterisks.
+  Do not use colons like "Here are examples:", instead use like "Here are examples below."
   You should follow text styles, such as tone, grammar, in the uploaded files with file ids in creating text responses. IDs of uploaded files are ${ids.join(
     ", "
   )}. If you cannot find the file, STOP THIS PROMPT INSTEAD OF ANSWERING PLEASE.
-  </writing style>
+  </writing_style>
+
+  # Instructions
+
   I am building a web service that people can share their LLM prompts.
   A prompt is an input text or instruction given to an LLM to generate an output.
 
