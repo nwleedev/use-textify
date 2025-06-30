@@ -18,3 +18,20 @@ export function getPreferencesByIds(client: Client, userIds: string[]) {
     filter,
   });
 }
+
+export function getPreferenceByUser(client: Client) {
+  const userId = client.authStore.record?.id;
+  return client
+    .collection("preferences")
+    .getFirstListItem<Preference>(
+      client.filter("user = {:userId}", { userId })
+    );
+}
+
+export function updatePreference(
+  client: Client,
+  id: string,
+  data: Partial<Preference>
+) {
+  return client.collection("preferences").update<Preference>(id, data);
+}
