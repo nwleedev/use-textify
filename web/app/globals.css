@@ -20,3 +20,8 @@ body {
 html {
   scrollbar-gutter: auto;
 }
+
+body {
+  display: flex;
+  flex-direction: column;
+}

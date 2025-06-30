@@ -63,7 +63,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
   await verifyUser(client);
 
   return (
-    <div className="bg-base-300 flex flex-col items-center justify-start gap-4 py-6 px-4 flex-1">
+    <div className="bg-gradient-to-br from-gray-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-indigo-900/20 flex flex-col items-center justify-start gap-6 py-6 px-4 flex-1">
       <HydrationQuery
         queryKey={getFeedByIdQueryKey(id)}
         queryFn={getFeedByIdQuery(client)}
