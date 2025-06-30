@@ -1,11 +1,14 @@
-"use client";
-
+import { verifyUser } from "@/entities/auth/lib/verify";
+import UserProvider from "@/features/auth/lib/user/provider";
+import { createClient } from "@/shared/lib/pocketbase/server/client";
+import BackLink from "@/shared/ui/link/back-button";
+import MobileMenuAccount from "@/widgets/account/ui/mobile-menu";
 import { PlusIcon, XIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-const Page = () => {
-  const router = useRouter();
+const Page = async () => {
+  const client = createClient();
+  await verifyUser(client);
   return (
     <div className="flex flex-col w-full flex-1">
       <div className="w-full flex sticky top-0 z-10">
@@ -17,12 +20,9 @@ const Page = () => {
           </div>
           <div className="navbar-end flex items-center gap-8 justify-end">
             <div className="flex items-center gap-2">
-              <button
-                className="btn btn-ghost btn-square"
-                onClick={() => router.back()}
-              >
+              <BackLink className="btn btn-ghost btn-square">
                 <XIcon className="w-6 h-6" />
-              </button>
+              </BackLink>
             </div>
           </div>
         </nav>
@@ -46,6 +46,12 @@ const Page = () => {
             <span>Categories</span>
           </Link>
         </div>
+        <div className="w-full px-4">
+          <div className="w-full h-px bg-base-300 px-4" />
+        </div>
+        <UserProvider user={client.authStore.record}>
+          <MobileMenuAccount />
+        </UserProvider>
       </div>
     </div>
   );

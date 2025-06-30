@@ -8,9 +8,9 @@ import AccountMain from "@/widgets/account/ui/main";
 import { ChevronLeftIcon } from "lucide-react";
 import Link from "next/link";
 
-const AccountPage = () => {
+const AccountPage = async () => {
   const client = createClient();
-  verifyUser(client);
+  await verifyUser(client);
 
   return (
     <div className="min-h-screen bg-base-200 flex flex-col">
