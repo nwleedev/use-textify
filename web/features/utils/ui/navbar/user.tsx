@@ -17,14 +17,19 @@ const NavbarUser = async () => {
   if (user) {
     return (
       <>
-        <div>
-          <div className="avatar avatar-sm">
-            <div className="w-8 rounded-full">
-              <img src={user?.avatarURL} alt={user?.name} />
-              <span>{user?.name}</span>
+        <Link href="/account" className="flex items-center gap-2 flex-shrink-0">
+          <div className="rounded-full flex items-center gap-2">
+            <div className="flex flex-shrink-0">
+              <img
+                src={user?.avatarURL}
+                alt={user?.name}
+                className="w-8 h-8 rounded-full"
+              />
             </div>
+            <span className="text-sm">{user?.name}</span>
           </div>
-        </div>
+        </Link>
+
         <Link href="/feeds/new" className="btn btn-primary text-white gap-2">
           <NewspaperIcon className="w-4 h-4" />
           <span>New Feed</span>
