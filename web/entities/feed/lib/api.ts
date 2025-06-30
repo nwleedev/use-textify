@@ -25,28 +25,43 @@ export async function getFeedsByFilter(
   filter: FeedFilter
 ) {
   const filters = [] as string[];
-  const tagsCondition = filter.tags
-    ?.map((tag) => `name = "${tag}"`)
-    .join(" || ");
+  const tagsFilters = [] as string[];
+  const bindTagKeys = {} as Record<string, string>;
+  if (filter.tags) {
+    for (let i = 0; i < filter.tags.length; i++) {
+      const key = `tag${i}`;
+      bindTagKeys[key] = filter.tags[i];
+      tagsFilters.push(`name = {:${key}}`);
+    }
+  }
   const tags = await client.collection("tags").getFullList<Tag>({
-    filter: tagsCondition,
+    filter:
+      tagsFilters.length > 0
+        ? client.filter(tagsFilters.join(" || "), bindTagKeys)
+        : undefined,
   });
-  const tagsIds = tags.map((tag) => tag.id);
+  const tagIds = tags.map((tag) => tag.id);
+  const bindKeys = {} as Record<string, string>;
   if (filter.keyword) {
-    filters.push(
-      `(title ~ "${filter.keyword}" || description ~ "${filter.keyword}")`
-    );
+    filters.push(`(title ~ {:title} || description ~ {:description})`);
+    bindKeys["title"] = filter.keyword;
+    bindKeys["description"] = filter.keyword;
   }
   if (filter.category) {
-    filters.push(`(category.key = "${filter.category}")`);
+    filters.push("(category.key = {:category})");
+    bindKeys["category"] = filter.category;
   }
-  if (filter.tags) {
-    const tagsIdsCondition = tagsIds
-      .map((id) => `tags.id ?= "${id}"`)
-      .join(" || ");
-    filters.push(`(${tagsIdsCondition})`);
+  if (filter.tags && filter.tags.length > 0) {
+    const tagIdsFilter = [] as string[];
+    for (let i = 0; i < tagIds.length; i++) {
+      const key = `tag${i}`;
+      const tagId = tagIds[i];
+      tagIdsFilter.push(`tags.id ?= {:${key}}`);
+      bindKeys[key] = tagId;
+    }
+    filters.push("(" + tagIdsFilter.join(" || ") + ")");
   }
-  const filterCondition = filters.join(" && ");
+  const filterCondition = client.filter(filters.join(" && "), bindKeys);
   return client.collection("feeds").getList<FeedGridItem>(page, size, {
     filter: filterCondition,
     expand: "category,tags,feed_variables_via_feed,feed_notices_via_feed",
