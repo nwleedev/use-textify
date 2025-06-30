@@ -1,11 +1,19 @@
 import { verifyUser } from "@/entities/auth/lib/verify";
+import { getCommentsByFeedQueryKey } from "@/entities/comment/lib/query-key";
 import { getFeedById } from "@/entities/feed/lib/api";
 import { FeedGridItem } from "@/entities/feed/lib/model";
 import { getFeedByIdQueryKey } from "@/entities/feed/lib/query-key";
 import UserProvider from "@/features/auth/lib/user/provider";
+import {
+  getCommentsByFeedQuery,
+  initialPageParam,
+} from "@/features/comment/lib/query";
 import { getFeedByIdQuery } from "@/features/feed/lib/query";
 import { createClient } from "@/shared/lib/pocketbase/server/client";
+import HydrationInfiniteQuery from "@/shared/ui/hydration-infinite-query";
 import HydrationQuery from "@/shared/ui/hydration-query";
+import CommentList from "@/widgets/comment/ui/list";
+import CommentNew from "@/widgets/comment/ui/new";
 import FeedDetail from "@/widgets/feeds/ui/detail";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -55,14 +63,28 @@ const Page = async ({ params }: { params: { id: string } }) => {
   await verifyUser(client);
 
   return (
-    <HydrationQuery
-      queryKey={getFeedByIdQueryKey(id)}
-      queryFn={getFeedByIdQuery(client)}
-    >
+    <div className="bg-base-300 flex flex-col items-center justify-start gap-4 py-6 px-4 flex-1">
+      <HydrationQuery
+        queryKey={getFeedByIdQueryKey(id)}
+        queryFn={getFeedByIdQuery(client)}
+      >
+        <UserProvider user={client.authStore.record}>
+          <FeedDetail />
+        </UserProvider>
+      </HydrationQuery>
       <UserProvider user={client.authStore.record}>
-        <FeedDetail />
+        <CommentNew />
       </UserProvider>
-    </HydrationQuery>
+      <HydrationInfiniteQuery
+        queryKey={getCommentsByFeedQueryKey(id)}
+        queryFn={getCommentsByFeedQuery(client)}
+        initialPageParam={initialPageParam}
+      >
+        <UserProvider user={client.authStore.record}>
+          <CommentList />
+        </UserProvider>
+      </HydrationInfiniteQuery>
+    </div>
   );
 };
 
