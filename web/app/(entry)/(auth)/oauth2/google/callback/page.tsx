@@ -5,16 +5,7 @@ import { Suspense } from "react";
 
 const Page = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-indigo-900/20 flex items-center justify-center px-4 py-8">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-green-400/30 dark:bg-green-600/20 rounded-full blur-3xl animate-pulse" />
-        <div
-          className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-400/30 dark:bg-blue-600/20 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-      </div>
-
+    <div className="flex-1 flex-col bg-gradient-to-br from-gray-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-indigo-900/20 flex items-center justify-center px-4 py-8">
       <div className="relative w-full max-w-sm">
         {/* Main glassmorphic card */}
         <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border border-white/30 dark:border-gray-700/30 supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 shadow-2xl rounded-3xl p-8 space-y-8">
