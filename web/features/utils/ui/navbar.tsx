@@ -9,7 +9,7 @@ const Navbar = () => {
       <div className="navbar px-4 sm:px-8 h-16 flex items-center max-w-none">
         {/* Brand */}
         <div className="navbar-start flex items-center gap-2">
-          <Link href="/" className="group flex items-center gap-3">
+          <Link href="/" className="group flex items-center gap-3 select-none">
             {/* Modern logo with glassmorphic background */}
             <div className="p-2 rounded-xl bg-indigo-500/20 backdrop-blur-sm border border-indigo-500/30 group-hover:bg-indigo-500/30 transition-all duration-200">
               <div className="w-6 h-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
@@ -25,7 +25,7 @@ const Navbar = () => {
         {/* Navigation actions */}
         <div className="navbar-end flex items-center gap-4 justify-end">
           {/* Desktop navigation */}
-          <div className="hidden sm:flex items-center gap-4 flex-shrink-0">
+          <div className="hidden sm:flex items-center gap-4 flex-shrink-0 w-full justify-end">
             <NavbarSearch />
             <NavbarUser />
           </div>

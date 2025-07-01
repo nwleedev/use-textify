@@ -84,11 +84,7 @@ const AccountUsernameEdit = ({ preference }: AccountUsernameEditProps) => {
           className="modal p-0 backdrop:backdrop-blur-md backdrop:bg-black/30"
         >
           <div
-            className="modal-backdrop"
-            onClick={() => ref.current?.close()}
-          ></div>
-          <div
-            className="max-w-md w-full mx-4 flex flex-col overflow-hidden p-4 px-6 h-full max-h-[50vh]
+            className="max-w-md w-[90%] mx-4 flex flex-col overflow-hidden p-4 px-6 h-full max-h-[50vh]
                      bg-white/95 dark:bg-gray-900/95 backdrop-blur-2xl border border-white/20 dark:border-gray-700/30
                      supports-[backdrop-filter]:bg-white/90 dark:supports-[backdrop-filter]:bg-gray-900/90
                      shadow-2xl rounded-3xl modal-box"
@@ -141,7 +137,7 @@ const AccountUsernameEdit = ({ preference }: AccountUsernameEditProps) => {
                     disabled={!isValid || isPending}
                   >
                     <Check className="w-4 h-4" />
-                    <span className="font-medium">
+                    <span className="font-medium whitespace-nowrap">
                       {isPending ? "Saving..." : "Save Changes"}
                     </span>
                   </button>
@@ -157,6 +153,11 @@ const AccountUsernameEdit = ({ preference }: AccountUsernameEditProps) => {
               </div>
             </div>
           </div>
+
+          <div
+            className="modal-backdrop"
+            onClick={() => ref.current?.close()}
+          ></div>
         </dialog>
       </Portal>
     </div>

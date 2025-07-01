@@ -44,7 +44,7 @@ const NavbarUser = async () => {
 
         <Link
           href="/feeds/new"
-          className="group flex items-center gap-2.5 px-4 py-2.5 rounded-2xl
+          className="group flex flex-shrink-0 items-center gap-2.5 px-4 py-2.5 rounded-2xl
                      bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700
                      text-white font-medium shadow-lg hover:shadow-xl
                      hover:scale-[1.02] transition-all duration-300 ease-in-out
@@ -65,7 +65,7 @@ const NavbarUser = async () => {
     return (
       <Link
         href="/join"
-        className="group flex items-center gap-2.5 px-4 py-2.5 rounded-2xl
+        className="group flex flex-shrink-0 items-center gap-2.5 px-4 py-2.5 rounded-2xl
                    bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700
                    text-white font-medium shadow-lg hover:shadow-xl
                    hover:scale-[1.02] transition-all duration-300 ease-in-out

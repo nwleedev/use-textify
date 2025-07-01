@@ -40,7 +40,7 @@ const NavbarSearch = () => {
   return (
     <>
       <button
-        className="group flex items-center gap-3 px-4 py-2.5 rounded-2xl w-full max-w-sm 
+        className="group flex flex-shrink-0 items-center gap-3 px-4 py-2.5 rounded-2xl w-full max-w-sm 
                    bg-white/50 dark:bg-gray-800/50 backdrop-blur-xl border border-white/30 dark:border-gray-700/30
                    hover:bg-white/70 dark:hover:bg-gray-700/70 hover:scale-[1.02]
                    transition-all duration-300 ease-in-out outline-none
@@ -65,12 +65,12 @@ const NavbarSearch = () => {
           <Search className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-200" />
         </div>
 
-        {/* Keyboard shortcut hint */}
+        {/* Keyboard shortcut hint
         <div className="hidden lg:flex items-center gap-1 px-2 py-1 rounded-md bg-gray-200/50 dark:bg-gray-700/50 backdrop-blur-sm">
           <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
             ⌘K
           </span>
-        </div>
+        </div> */}
       </button>
 
       <Portal id="portal">
