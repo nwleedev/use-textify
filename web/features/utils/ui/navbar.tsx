@@ -1,4 +1,4 @@
-import { MenuIcon, SearchIcon } from "lucide-react";
+import { MenuIcon, MessageCircleIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
 import NavbarSearch from "./navbar/search";
 import NavbarUser from "./navbar/user";
@@ -27,6 +27,12 @@ const Navbar = () => {
           {/* Desktop navigation */}
           <div className="hidden sm:flex items-center gap-4 flex-shrink-0 w-full justify-end">
             <NavbarSearch />
+            <Link
+              href="/reports"
+              className="flex w-10 h-10 items-center justify-center rounded-xl bg-white/20 border-indigo-500/30 dark:bg-gray-800/40 backdrop-blur-sm border dark:border-gray-700/30 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-all duration-200 group-hover:bg-white/80 dark:group-hover:bg-gray-700/80 hover:border-white/40 dark:hover:border-gray-700/40 hover:shadow-sm"
+            >
+              <MessageCircleIcon className="w-4 h-4 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-200" />
+            </Link>
             <NavbarUser />
           </div>
 

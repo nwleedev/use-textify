@@ -40,7 +40,7 @@ const NavbarSearch = () => {
   return (
     <>
       <button
-        className="group flex flex-shrink-0 items-center gap-3 px-4 py-2.5 rounded-2xl w-full max-w-sm 
+        className="group flex flex-shrink-0 items-center gap-3 px-4 h-10 rounded-2xl w-full max-w-sm 
                    bg-white/50 dark:bg-gray-800/50 backdrop-blur-xl border border-white/30 dark:border-gray-700/30
                    hover:bg-white/70 dark:hover:bg-gray-700/70 hover:scale-[1.02]
                    transition-all duration-300 ease-in-out outline-none
