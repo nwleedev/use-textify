@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
-import { createFeedPrompt } from "../prompt/task";
-import { ResponseSchema, responseSchema } from "../schema/feed";
+import { createFeedPrompt } from "../../lib/features/feed/prompt/legacy";
+import { ResponseSchema, responseSchema } from "../../lib/features/feed/schema";
 
 export async function getFiles(client: OpenAI) {
   const response = await client.files.list();
