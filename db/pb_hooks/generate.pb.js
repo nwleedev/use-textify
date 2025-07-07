@@ -29,11 +29,23 @@ cronAdd("GenerateFeedByConcept", "0 0 30 2 *", () => {
     1,
     0
   );
+  const materialRecords = $app.findAllRecords("feed_prompt_materials");
+  /**
+   * @type {Array<string>}
+   */
+  const initMaterials = [];
+  const materials = materialRecords.reduce((array, record) => {
+    if (record) {
+      array.push(record.getString("text"));
+    }
+    return array;
+  }, initMaterials);
 
   const record = records.at(0);
-  if (!record) {
+  if (!record || materials.length === 0) {
     return;
   }
+
   const text = record.getString("text");
   const categoryId = record.getString("category");
 
@@ -42,6 +54,8 @@ cronAdd("GenerateFeedByConcept", "0 0 30 2 *", () => {
     method: "POST",
     body: JSON.stringify({
       concept: text,
+      category: categoryId,
+      materials,
     }),
     headers: {
       "content-type": "application/json",
