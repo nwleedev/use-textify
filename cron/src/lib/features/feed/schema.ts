@@ -22,7 +22,6 @@ export type ResponseSchema = z.infer<typeof responseSchema>;
 export const completionBodySchema = z.object({
   concept: z.string(),
   category: z.string(),
-  materials: z.array(z.string()),
 });
 
 export type CompletionBodySchema = z.infer<typeof completionBodySchema>;

@@ -7,7 +7,7 @@
  * @property {string} description
  */
 /**
- * @typedef {Object} FeedSchema
+ * @typedef {Object} FeedItemSchema
  * @property {string} title
  * @property {string} description
  * @property {string} prompt
@@ -17,7 +17,7 @@
  */
 /**
  * @typedef {Object} FeedResponse
- * @property {FeedSchema[]} items
+ * @property {FeedItemSchema[]} items
  * @property {string} userId
  */
 
@@ -29,20 +29,9 @@ cronAdd("GenerateFeedByConcept", "0 0 30 2 *", () => {
     1,
     0
   );
-  const materialRecords = $app.findAllRecords("feed_prompt_materials");
-  /**
-   * @type {Array<string>}
-   */
-  const initMaterials = [];
-  const materials = materialRecords.reduce((array, record) => {
-    if (record) {
-      array.push(record.getString("text"));
-    }
-    return array;
-  }, initMaterials);
 
   const record = records.at(0);
-  if (!record || materials.length === 0) {
+  if (!record) {
     return;
   }
 
@@ -55,7 +44,6 @@ cronAdd("GenerateFeedByConcept", "0 0 30 2 *", () => {
     body: JSON.stringify({
       concept: text,
       category: categoryId,
-      materials,
     }),
     headers: {
       "content-type": "application/json",
