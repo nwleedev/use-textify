@@ -30,7 +30,7 @@ export interface CategoryIconProps extends LucideProps {
 
 export const CategoryIcon = (props: CategoryIconProps) => {
   const { iconKey, ...others } = props;
-  const Icon = iconKey ? icons[iconKey] : Component;
+  const Icon = iconKey && icons[iconKey] ? icons[iconKey] : Component;
 
   return <Icon {...others} />;
 };
@@ -56,4 +56,7 @@ const icons: Record<string, LucideIcon> = {
   "role-playing": Users,
   "general-inquiry": HelpCircle,
   "information-summary": FileCheck,
+  "human-resources": Users,
+  "legal-advices": Briefcase,
+  seo: TrendingUp,
 };
