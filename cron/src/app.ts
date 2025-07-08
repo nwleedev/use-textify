@@ -72,12 +72,7 @@ app.post("/files", upload.array("files"), async (req, res) => {
 app.post("/feed_completion", async (req, res) => {
   try {
     const body = completionBodySchema.parse(req.body);
-    const response = await createFeed(
-      anthropic,
-      body.concept,
-      body.category,
-      body.materials
-    );
+    const response = await createFeed(anthropic, body.concept, body.category);
 
     const item = response.content.find(
       (content) => content.type === "tool_use"

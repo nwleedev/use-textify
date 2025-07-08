@@ -8,30 +8,21 @@ import { responseSchema } from "../../../lib/features/feed/schema";
 export async function createFeed(
   client: Anthropic,
   topic: string,
-  category: string,
-  materials: string[]
+  category: string
 ) {
-  const system = createSystemPrompt(materials);
+  const system = createSystemPrompt();
   const user = createUserPrompt(topic, category);
   const jsonSchema = zodToJsonSchema(responseSchema, "schema");
 
   const response = await client.messages.create({
-    model: "claude-3-7-sonnet-latest",
+    model: "claude-4-sonnet-20250514",
     messages: [
       {
         role: "user",
         content: user,
       },
     ],
-    system: [
-      {
-        type: "text",
-        text: system,
-        cache_control: {
-          type: "ephemeral",
-        },
-      },
-    ],
+    system,
     tools: [
       {
         name: "format_json",
@@ -41,7 +32,7 @@ export async function createFeed(
       },
     ],
     tool_choice: { type: "tool", name: "format_json" },
-    max_tokens: 4096,
+    max_tokens: 6000,
   });
 
   return response;
