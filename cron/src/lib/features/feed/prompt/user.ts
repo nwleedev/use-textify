@@ -33,7 +33,7 @@ Please create a comprehensive, well-structured prompt that I can use with AI ass
 - Title: Title should be SEO optmizied and concise.
 - Description: Description shoild be SEO optimized. Given the description, if it is like "This prompt gives ...", please write it except for the part of "This prompt gives".
 - Prompt: Please write the prompt consisting of over 200 words as much as possible. If the topic is wide-spread, you should divide to multiple steps and format into the nested list, and each list item should be longer than 35 words.
-- Tags: The list of tags at the prompt is a list of words. Each tag should have the length of 16 characters or less.
+- Tags: The list of tags at the prompt is a list of words. Each tag should have the length of 16 characters or less. Tags should be under than 10 tags.
 - Variables: Variables are the variables required for prompts. Each variable item must consist of a variable and a variable description. A variable description is a single sentence consisting of 14-16 words about what a variable does. The prompt should use variables listed in variable list. For example, If there are variables "text" or "title", it means that prompt have to use these variables like "... {text} ..." or "... {title} ...".
 - Notices: Notices are used to specify what you should be aware of before using the data that you prompt. For example, a notice would be like "LLM can make mistakes.". Do not include "LLM can make mistakes." directly. Remember notices are not an additional input to the prompt. Each notice is a single sentence consisting of 10-12 words.
 
