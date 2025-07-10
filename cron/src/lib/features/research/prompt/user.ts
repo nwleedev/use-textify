@@ -6,7 +6,7 @@ Research specific AI use cases for people seeking life improvement solutions in 
 **Category**: ${category}
 
 ## Research Objectives:
-I need you to identify 4 specific, actionable problems that people in this category are actively seeking to solve using AI assistants like Claude. These should be concrete, detailed issues that go beyond generic advice.
+I need you to identify 6 specific, actionable problems which people in this category are actively seeking to solve, by using AI assistants like Claude. These should be concrete, detailed issues that go beyond generic advice.
 
 ## Web Search Requirements:
 **IMPORTANT**: Use web search to find the most current and relevant information about problems in the "${category}" category. Search for:
@@ -37,12 +37,10 @@ For each problem, consider:
 - Emerging technologies affecting this area
 - Economic and social trends
 
-### 3. **AI Solution Fit**
+### 3. **Solution Fit**
 Each problem should:
-- Be well-suited for AI assistance
 - Require analytical thinking or content generation
-- Benefit from AI's pattern recognition capabilities
-- Be practical for prompt-based solutions
+- Be practical in real life scenarios
 
 ### 4. **Target Audience Context**
 Consider specific demographics:
@@ -69,7 +67,7 @@ Provide your research findings in a long paragraph format.
 Based on the category "${category}", research problems that are:
 - Trending in online communities and forums
 - Discussed frequently on social media platforms
-- Addressed by existing tools that could be improved with AI
+- Addressed by existing tools
 - Emerging due to recent technological or social changes
 - Specific to the target audience's current life stage and circumstances
 
