@@ -43,7 +43,7 @@ export async function generateMetadata({
   const keywords = [category, ...tags];
 
   return {
-    title: feed.title,
+    title: "Prompts: " + feed.title + " - Use Textify",
     description: feed.description,
     keywords,
     openGraph: {

@@ -14,13 +14,13 @@ export async function generateMetadata({
   searchParams: Record<string, string>;
 }): Promise<Metadata> {
   const [, filter] = getFeedsByFilterQueryKey(toSearchParams(searchParams));
-  let title = "Feeds";
+  let title = "Feeds - Use Textify";
   if (filter && filter.keyword) {
-    title = `Search: ${filter.keyword}`;
+    title = `Search: ${filter.keyword} - Use Textify`;
   } else if (filter && filter.category) {
-    title = `Category: ${filter.category}`;
+    title = `Category: ${filter.category} - Use Textify`;
   } else if (filter && filter.tags) {
-    title = `Tags: ${filter.tags.join(", ")}`;
+    title = `Tags: ${filter.tags.join(", ")} - Use Textify`;
   }
   return {
     title,
