@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     title: "Use Textify",
     description: "Share your awesome prompts with users",
   },
+  alternates: {
+    canonical: "https://usetextify.com",
+  },
 };
 
 export default function RootLayout({

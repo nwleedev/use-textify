@@ -42,8 +42,18 @@ export async function generateMetadata({
   const tags = feed.expand.tags?.map((tag) => tag.name) ?? [];
   const keywords = [category, ...tags];
 
+  function getTitle(feed: FeedGridItem | null): string {
+    if (feed && feed.title && feed.expand.category.name) {
+      return `${feed.title} - ${feed.expand.category.name} Prompt - Use Textify`;
+    }
+    if (feed && feed.title) {
+      return `${feed.title} - Use Textify`;
+    }
+    return `Unknown Prompt - Use Textify`;
+  }
+
   return {
-    title: "Prompts: " + feed.title + " - Use Textify",
+    title: getTitle(feed),
     description: feed.description,
     keywords,
     openGraph: {
@@ -53,6 +63,9 @@ export async function generateMetadata({
     twitter: {
       title: feed.title,
       description: feed.description,
+    },
+    alternates: {
+      canonical: `https://usetextify.com/feeds/${id}`,
     },
   };
 }

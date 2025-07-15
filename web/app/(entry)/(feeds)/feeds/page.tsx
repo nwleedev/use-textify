@@ -25,6 +25,9 @@ export async function generateMetadata({
   return {
     title,
     description: "Feeds",
+    alternates: {
+      canonical: "https://usetextify.com/feeds",
+    },
   };
 }
 
